@@ -41,13 +41,22 @@ const serverHandler=(req,res)=>{
 	getPostData(req).then((postData)=>{
 		req.body=postData
 
-		const blogData=handleBlogRouter(req,res)
-		if(blogData){
+		const result=handleBlogRouter(req,res)
+		if(result){
+			result.then((blogData)=>{
 			res.end(
-				JSON.stringify(blogData)
+					JSON.stringify(blogData)
 			)
-			return
+				return
+			})
 		}
+		// const blogData=handleBlogRouter(req,res)
+		// if(blogData){
+		// 	res.end(
+		// 		JSON.stringify(blogData)
+		// 	)
+		// 	return
+		// }
 
 		const userData=handleUserRouter(req,res)
 		if(userData){

@@ -10,11 +10,23 @@ const handleBlogRouter=(req,res)=>{
 		const author = req.query.author||''
 		const keyword = req.query.keyword||''
 
-		const listData=getList(author,keyword)
-		if(!listData){
-			return ErrorModel('获取列表失败')
-		}
-		return new SuccessModel(listData)
+		const result = getList(author,keyword)
+		return result.then(listData=>{
+			if(!listData){
+				return new ErrorModel('获取列表失败')
+			}
+			console.log(listData)
+			return new SuccessModel(listData)
+		}).catch(err=>{
+			console.log(err)
+		})
+
+		// const listData = getList(author,keyword)
+		// console.log(listData)
+		// if(!listData){
+		// 	return ErrorModel('获取列表失败')
+		// }
+		// return new SuccessModel(listData)
 	}
 
 	if(method==='GET' && path==='/api/blog/detail'){

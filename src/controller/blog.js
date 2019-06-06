@@ -1,16 +1,27 @@
+const {exec} =require('../db/mysql.js')
+
 const getList=(author,keyword)=>{
-	return [
-		{
-			id:1,
-			title:'aa',
-			content:'aa'
-		},
-		{
-			id:2,
-			title:'bb',
-			content:'bb'
-		}
-	]
+	let sql=`select * from blogs where 1=1 `
+	if(author){
+		sql+=`and author='${author}' `
+	}
+	if(keyword){
+		sql+=`and title='${keyword}' `
+	}
+	console.log(exec(sql))
+	return exec(sql)
+	// return [
+	// 	{
+	// 		id:1,
+	// 		title:'aa',
+	// 		content:'aa'
+	// 	},
+	// 	{
+	// 		id:2,
+	// 		title:'bb',
+	// 		content:'bb'
+	// 	}
+	// ]
 }
 
 const getDetailById=(id)=>{
