@@ -1,43 +1,29 @@
-const http=require('http')
-const querystring=require('querystring')
+const handleBlogRouter=require('./src/router/blog.js')
+const handleUserRouter=require('./src/router/user.js')
 
-const server=http.createServer((req,res)=>{
-	//url, method, path, querystring
-	const method=req.method;
+const serverHandler=(req,res)=>{
+
 	const url=req.url
-	const path=url.split('?')[0]
-	const query=querystring.parse(url.split('?')[1])
+	req.path=url.split('?')[0]
 
 	// 设置返回格式是json
 	res.setHeader('Content-type','application/json')
 
-	const resData={
-		method,
-		url,
-		path,
-		query
-	}
-
-	if(method==='GET'){
+	const blogData=handleBlogRouter(req,res)
+	if(blogData){
 		res.end(
-			// JSON.stringify(resData)
-			"hahah起来了"
+			JSON.stringify(blogData)
 		)
+		return
 	}
 
-	if(method==='POST'){
-		let postData=''
-		req.on('data',chunk=>{
-			postData+=chunk
-		})
-		req.on('end',()=>{
-			resData.postData=postData
-			res.end(
-				JSON.stringify(resData)
-			)
-			console.log(resData)
-		})
+	const userData=handleUserRouter(req,res)
+	if(userData){
+		res.end(
+			JSON.stringify(userData)
+		)
+		return
 	}
-})
+}
 
-server.listen(3000)
+module.exports=serverHandler 
