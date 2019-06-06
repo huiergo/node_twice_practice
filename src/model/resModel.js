@@ -1,4 +1,4 @@
-class BaseModel={
+class BaseModel{
 	constructor(data,message){
 		if(typeof(data)==='string'){
 			this.message=data
@@ -6,10 +6,10 @@ class BaseModel={
 			data=null
 		}
 		if(data){
-			return data
+			this.data=data;
 		}
 		if(message){
-			return message
+			this.message=message
 		}
 	}
 }
